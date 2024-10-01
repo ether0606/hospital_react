@@ -4,31 +4,27 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Designation;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Api\BaseController;
 
-class DesignationController extends Controller
+class DesignationController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data=Designation::get();
+        return $this->sendResponse($data,"Designation list");
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        $data=Designation::create($request->all());
+        return $this->sendResponse($data,"Designation created successfully");
     }
 
     /**
@@ -36,23 +32,17 @@ class DesignationController extends Controller
      */
     public function show(Designation $designation)
     {
-        //
+        return $this->sendResponse($designation,"Designation data");
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Designation $designation)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Designation $designation)
+    public function update(Request $request, $id)
     {
-        //
+        $designation=Designation::where('id',$id)->update($request->all());
+        return $this->sendResponse($designation,"Designation updated successfully");
     }
 
     /**
@@ -60,6 +50,7 @@ class DesignationController extends Controller
      */
     public function destroy(Designation $designation)
     {
-        //
+        $designation=$designation->delete();
+        return $this->sendResponse($designation,"Designation deleted successfully");
     }
 }
